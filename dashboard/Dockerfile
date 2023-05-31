@@ -19,13 +19,14 @@ RUN nvm install 16
 RUN cd backend && npm i --production=false
 RUN cd dashboard && npm i --production=false && npx cross-env NODE_ENV=web webpack --config webpack.config.js
 
+
+WORKDIR /etc/nginx/sites-available
 RUN rm /etc/nginx/conf.d/default.conf
-RUN wget https://raw.githubusercontent.com/ZeppelinBot/Zeppelin/master/docker/production/nginx/default.conf
-RUN cp ./default.conf /etc/nginx/conf.d/default.conf
-RUN sed -ir "s/_API_PORT_/${API_PORT}/g" /etc/nginx/conf.d/default.conf
-RUN sed -ir "s/_DOCKER_PROD_DOMAIN_/${DOMAIN_NAME}/g" /etc/nginx/conf.d/default.conf
-RUN sed -ir "s/root \/zeppelin\/dashboard\/dist/root \/dashboard\/dist/g" /etc/nginx/conf.d/default.conf
-RUN sed -ir "s/443 ssl http2/80/g" /etc/nginx/conf.d/default.conf
+COPY . .
+RUN sed -ir "s/_API_PORT_/${API_PORT}/g" default.conf
+RUN sed -ir "s/_DOCKER_PROD_DOMAIN_/${DOMAIN_NAME}/g" default.conf
+#RUN sed -ir "s/root \/zeppelin\/dashboard\/dist/root \/dashboard\/dist/g" /etc/nginx/conf.d/default.conf
+#RUN sed -ir "s/443 ssl http2/80/g" /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 #EXPOSE 443
