@@ -1,7 +1,7 @@
 FROM nginx
 
 ARG API_PORT
-ARG DASHBOARD_URL
+ARG DOMAIN_NAME
 
 RUN apt-get update
 RUN apt install curl build-essential git python3 python3-pip openssl wget -y
@@ -23,7 +23,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 RUN wget https://raw.githubusercontent.com/ZeppelinBot/Zeppelin/master/docker/production/nginx/default.conf
 RUN cp ./default.conf /etc/nginx/conf.d/default.conf
 RUN sed -ir "s/_API_PORT_/${API_PORT}/g" /etc/nginx/conf.d/default.conf
-RUN sed -ir "s/_DOCKER_PROD_DOMAIN_/${DASHBOARD_URL}/g" /etc/nginx/conf.d/default.conf
+RUN sed -ir "s/_DOCKER_PROD_DOMAIN_/${DOMAIN_NAME}/g" /etc/nginx/conf.d/default.conf
 RUN sed -ir "s/root \/zeppelin\/dashboard\/dist/root \/dashboard\/dist/g" /etc/nginx/conf.d/default.conf
 
 EXPOSE 443
