@@ -1,7 +1,11 @@
-FROM nginx:latest
+FROM nginx
 
-RUN apt update
-RUN apt install curl build-essential git python3 python3-pip -y
+ARG API_PORT
+ARG DOCKER_PROD_DOMAIN
+
+RUN apt-get update
+RUN apt install curl build-essential git python3 python3-pip openssl wget -y
+RUN openssl req -x509 -newkey rsa:4096 -keyout /etc/ssl/private/zeppelin-self-signed-cert.key -out /etc/ssl/certs/zeppelin-self-signed-cert.pem -days 3650 -subj "/CN=${DOCKER_PROD_DOMAIN}" -nodes
 
 SHELL ["/bin/bash", "--login", "-c"]
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
@@ -10,18 +14,16 @@ WORKDIR /app/ZeppelinBot
 ARG GIT_REPO=https://github.com/Dragory/ZeppelinBot.git
 RUN git clone $GIT_REPO .
 
-RUN nvm install
-RUN touch .env
+RUN nvm install 16
 
-WORKDIR /app/ZeppelinBot/dashboard
-RUN npm ci
+RUN cd backend && npm i --production=false
+RUN cd dashboard && npm i --production=false && npx cross-env NODE_ENV=web webpack --config webpack.config.js
 
-ARG API_URL
-
-RUN echo "API_URL=$API_URL" > .env
-RUN npm run build
-
-WORKDIR /etc/nginx/sites-available
-COPY . .
 RUN rm /etc/nginx/conf.d/default.conf
-RUN ln -s /etc/nginx/sites-available/zeppelin /etc/nginx/conf.d/default.conf
+RUN wget https://raw.githubusercontent.com/ZeppelinBot/Zeppelin/master/docker/production/nginx/default.conf
+RUN cp ./default.conf /etc/nginx/conf.d/default.conf
+RUN sed -ir "s/_API_PORT_/${API_PORT}/g" /etc/nginx/conf.d/default.conf
+RUN sed -ir "s/_DOCKER_PROD_DOMAIN_/${DOCKER_PROD_DOMAIN}/g" /etc/nginx/conf.d/default.conf
+RUN sed -ir "s/root \/zeppelin\/dashboard\/dist/root \/dashboard\/dist/g" /etc/nginx/conf.d/default.conf
+
+EXPOSE 443
