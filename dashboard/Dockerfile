@@ -1,7 +1,8 @@
 FROM nginx
 
-ARG API_PORT
+ARG API_URL
 ARG DOMAIN_NAME
+ARG NODE_ENV
 
 RUN apt-get update
 RUN apt install curl build-essential git python3 python3-pip openssl wget -y
@@ -26,7 +27,8 @@ ARG GIT_REPO=https://github.com/Dragory/ZeppelinBot.git
 RUN git clone $GIT_REPO .
 
 RUN nvm install 16
-
+RUN touch .env
+RUN echo "API_URL=$API_URL" > .env
 RUN cd backend && npm i --production=false
 RUN cd dashboard && npm i --production=false && npx cross-env NODE_ENV=web webpack --config webpack.config.js
 
