@@ -3,7 +3,7 @@ server {
   listen [::]:80;
   server_name _DOCKER_PROD_DOMAIN_;
 
-  root /dashboard/dist;
+  root /app/ZeppelinBot/dashboard/dist;
 
   location / {
     index index.html;
