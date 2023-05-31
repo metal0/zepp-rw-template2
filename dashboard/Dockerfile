@@ -1,6 +1,7 @@
 FROM nginx
 
 ARG API_URL
+ARG API_PROXY_URL
 ARG DOMAIN_NAME
 ARG NODE_ENV
 
@@ -15,7 +16,7 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | b
 WORKDIR /etc/nginx/sites-available
 
 COPY . .
-RUN sed -ir "s/_API_URL_/${API_URL}/g" zeppelin
+RUN sed -ir "s/_API_PROXY_URL_/${API_PROXY_URL}/g" zeppelin
 RUN sed -ir "s/_DOCKER_PROD_DOMAIN_/${DOMAIN_NAME}/g" zeppelin
 RUN rm /etc/nginx/conf.d/default.conf
 RUN ln -s /etc/nginx/sites-available/zeppelin /etc/nginx/conf.d/default.conf

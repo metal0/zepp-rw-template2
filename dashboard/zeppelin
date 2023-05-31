@@ -11,7 +11,7 @@ server {
   }
 
   # Using a variable here stops nginx from crashing if the dev container is restarted or becomes otherwise unavailable
-  set $backend_upstream "https://_API_URL_";
+  set $backend_upstream "https://_API_PROXY_URL_";
 
   location /api {
     # Remove /api/ from the beginning when passing the path to the API process
