@@ -10,9 +10,6 @@ WORKDIR /app/ZeppelinBot
 ARG GIT_REPO=https://github.com/Dragory/ZeppelinBot.git
 RUN git clone $GIT_REPO .
 
-COPY sql.patch .
-RUN git apply sql.patch
-
 RUN nvm install
 
 WORKDIR /app/ZeppelinBot/backend
