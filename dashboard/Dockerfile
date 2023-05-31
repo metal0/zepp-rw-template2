@@ -25,6 +25,7 @@ RUN cp ./default.conf /etc/nginx/conf.d/default.conf
 RUN sed -ir "s/_API_PORT_/${API_PORT}/g" /etc/nginx/conf.d/default.conf
 RUN sed -ir "s/_DOCKER_PROD_DOMAIN_/${DOMAIN_NAME}/g" /etc/nginx/conf.d/default.conf
 RUN sed -ir "s/root \/zeppelin\/dashboard\/dist/root \/dashboard\/dist/g" /etc/nginx/conf.d/default.conf
-RUN sed -ir "s/443 ssl/80/g" /etc/nginx/conf.d/default.conf
+#RUN sed -ir "s/443 ssl/80/g" /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
+EXPOSE 443
