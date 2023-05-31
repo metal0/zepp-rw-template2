@@ -5,9 +5,9 @@ server {
 
   root /dashboard/dist;
 
-  index index.html;
   location / {
-    try_files $uri /index.html;
+    index index.html;
+    try_files $uri $uri/ /index.html;
   }
 
   # Using a variable here stops nginx from crashing if the dev container is restarted or becomes otherwise unavailable
