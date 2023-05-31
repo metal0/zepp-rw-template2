@@ -21,10 +21,12 @@ RUN cd dashboard && npm i --production=false && npx cross-env NODE_ENV=web webpa
 
 
 WORKDIR /etc/nginx/sites-available
-RUN rm /etc/nginx/conf.d/default.conf
+
 COPY . .
-RUN sed -ir "s/_API_PORT_/${API_PORT}/g" default.conf
-RUN sed -ir "s/_DOCKER_PROD_DOMAIN_/${DOMAIN_NAME}/g" default.conf
+RUN sed -ir "s/_API_PORT_/${API_PORT}/g" zeppelin
+RUN sed -ir "s/_DOCKER_PROD_DOMAIN_/${DOMAIN_NAME}/g" zeppelin
+RUN rm /etc/nginx/conf.d/default.conf
+RUN ln -s /etc/nginx/sites-available/zeppelin /etc/nginx/conf.d/default.conf
 #RUN sed -ir "s/root \/zeppelin\/dashboard\/dist/root \/dashboard\/dist/g" /etc/nginx/conf.d/default.conf
 #RUN sed -ir "s/443 ssl http2/80/g" /etc/nginx/conf.d/default.conf
 
