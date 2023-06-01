@@ -31,6 +31,6 @@ ARG CLIENT_SECRET
 ARG CLIENT_ID
 ARG BOT_TOKEN
 
-RUN npm run migrate-prod
+RUN timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' ${API_URL})" != "200" ]]; do sleep 5; done' || false
 
 ENTRYPOINT ["/bin/bash", "--login", "-c", "npm run start-bot-prod"]
