@@ -34,11 +34,8 @@ ARG RAILWAY_SERVICE_API_URL
 
 
 # Wait for API to be available
-RUN echo "API_URL = $API_URL"
-RUN echo "RAILWAY_SERVICE_API_URL = $RAILWAY_SERVICE_API_URL"
-RUN echo "RAILWAY_SERVICE_{API}_URL = $RAILWAY_SERVICE_{API}_URL"
 
-RUN echo "Waiting for API Url $RAILWAY_SERVICE_{API}_URL to be available.."
-RUN timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' $RAILWAY_SERVICE_{API}_URL)" != "200" ]]; do sleep 5; done' || false
+RUN echo "Waiting for API Url $API_URL to be available.."
+RUN timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' $API_URL)" != "200" ]]; do sleep 5; done' || false
 
 ENTRYPOINT ["/bin/bash", "--login", "-c", "npm run start-bot-prod"]
