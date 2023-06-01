@@ -5,6 +5,11 @@ server {
 
   root /app/ZeppelinBot/dashboard/dist;
 
+  location / {
+    index index.html;
+    try_files $uri $uri/ /index.html;
+  }
+
   location /api {
     rewrite /api(/.*)$ $1 break;
     resolver 8.8.8.8;
@@ -18,10 +23,5 @@ server {
     proxy_read_timeout 600;
     send_timeout 600;
     client_max_body_size 200M;
-  }
-
-  location / {
-    index index.html;
-    try_files $uri $uri/ /index.html;
   }
 }
