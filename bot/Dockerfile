@@ -31,6 +31,7 @@ ARG CLIENT_ID
 ARG BOT_TOKEN
 
 # Wait for API to be available
+RUN echo "Waiting for API Url ${API_URL} to be available.."
 RUN timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' ${API_URL})" != "200" ]]; do sleep 5; done' || false
 
 ENTRYPOINT ["/bin/bash", "--login", "-c", "npm run start-bot-prod"]
