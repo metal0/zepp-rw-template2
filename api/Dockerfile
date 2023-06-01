@@ -34,4 +34,6 @@ ARG API_PORT=3000
 
 RUN npm run migrate-prod
 
+RUN echo "API Ready. Your discord oauth redirect url is: $API_URL/auth/oauth-callback"
+
 ENTRYPOINT ["/bin/bash", "--login", "-c", "npm run start-api-prod"]
