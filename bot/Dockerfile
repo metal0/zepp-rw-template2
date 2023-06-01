@@ -29,6 +29,7 @@ ARG STAFF
 ARG CLIENT_SECRET
 ARG CLIENT_ID
 ARG BOT_TOKEN
+ARG RAILWAY_SERVICE_{API}_URL
 
 # Wait for API to be available
 RUN echo "Waiting for API Url $API_URL to be available.."
