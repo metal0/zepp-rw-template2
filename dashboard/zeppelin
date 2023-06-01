@@ -5,15 +5,10 @@ server {
 
   root /app/ZeppelinBot/dashboard/dist;
 
-  location / {
-    index index.html;
-    try_files $uri $uri/ /index.html;
-  }
-
   location /api {
     rewrite /api(/.*)$ $1 break;
     resolver 8.8.8.8;
-    proxy_pass https://_API_PROXY_URL_/$uri$is_args$args;;
+    proxy_pass https://_API_PROXY_URL_/$uri$is_args$args;
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -24,4 +19,11 @@ server {
     send_timeout 600;
     client_max_body_size 200M;
   }
+  
+  location / {
+    index index.html;
+    try_files $uri $uri/ /index.html;
+  }
+
+
 }
