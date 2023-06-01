@@ -9,8 +9,8 @@ server {
   location ^~ /api {
     rewrite ^/api(/.*)$ $1 break;
     resolver 8.8.8.8;
-    proxy_pass https://_API_PROXY_URL_;
-    proxy_redirect https://_API_PROXY_URL_/api https://_DOCKER_PROD_DOMAIN_;
+    proxy_pass https://_API_PROXY_FQDN_;
+    proxy_redirect https://_API_PROXY_FQDN_/api https://_DOCKER_PROD_DOMAIN_;
     # proxy_set_header Host $host;
     # proxy_set_header X-Real-IP $remote_addr;
     # proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
