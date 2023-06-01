@@ -33,5 +33,8 @@ RUN echo "API_URL=$API_URL" > .env
 RUN cd backend && npm i --production=false
 RUN cd dashboard && npm i --production=false && npx cross-env NODE_ENV=web webpack --config webpack.config.js
 
+# Wait for API to be available
+RUN timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' ${API_URL})" != "200" ]]; do sleep 5; done' || false
+
 EXPOSE 80
 #EXPOSE 443
