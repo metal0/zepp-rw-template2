@@ -1,9 +1,9 @@
 FROM nginx
 
 ARG API_URL
-ARG API_PROXY_URL
 ARG DOMAIN_NAME
 ARG NODE_ENV
+ARG API_PROXY_URL=$API_URL
 
 RUN apt-get update
 RUN apt install curl build-essential git python3 python3-pip openssl wget -y
