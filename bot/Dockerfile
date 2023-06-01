@@ -22,15 +22,14 @@ ARG DB_PASSWORD
 ARG DB_PORT
 ARG DB_USER
 ARG DB_HOST
-ARG DASHBOARD_URL
 ARG API_URL
 ARG KEY
 ARG STAFF
-ARG DASHBOARD_URL
 ARG CLIENT_SECRET
 ARG CLIENT_ID
 ARG BOT_TOKEN
 
+# Wait for API to be available
 RUN timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' ${API_URL})" != "200" ]]; do sleep 5; done' || false
 
 ENTRYPOINT ["/bin/bash", "--login", "-c", "npm run start-bot-prod"]
